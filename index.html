@@ -58,6 +58,11 @@ h2{
   padding:18px;
   margin-bottom:15px;
   box-shadow:var(--shadow);
+  transition:.2s;
+}
+
+.ticket:hover{
+  transform:translateY(-3px);
 }
 
 .ticket-header{
@@ -152,22 +157,36 @@ h2{
 .buy:disabled{
   background:#ccc;
 }
+
+/* LOADING */
+#loader{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  font-weight:700;
+}
 </style>
 </head>
 
 <body>
 
+<div id="loader">Loading...</div>
+
 <!-- BANNER -->
 <div class="banner">
-  <img src="banner.jpg" alt="Banner Event"
-       onerror="this.src='https://via.placeholder.com/1200x400?text=POLIPONI+EVENT'">
+  <img src="https://via.placeholder.com/1200x400?text=POLIPONI+EVENT">
 </div>
 
 <div class="container">
 
 <h2>🎟️ Pilih Tiket</h2>
 
-<!-- FESTIVAL SOLD OUT -->
+<!-- SOLD OUT -->
 <div class="ticket sold-out">
   <div class="ticket-header">
     <div>Reguler Festival</div>
@@ -245,7 +264,7 @@ function totalQty(){
 
 function inc(type){
   if(totalQty() >= MAX){
-    alert("Maksimal tiket tercapai");
+    alert("Maksimal tiket 10");
     return;
   }
   data[type]++;
@@ -285,16 +304,21 @@ function beli(){
   let total = (data.premium * price.premium) + (data.fast * price.fast);
 
   if(total === 0){
-    alert("Silakan pilih tiket terlebih dahulu");
+    alert("Pilih tiket dulu ya");
     return;
   }
 
-  let url = "https://poliponi.github.io/PEMBELIAN/" +
+  let url = "https://hariadig68-wq.github.io/Festival/PEMBELIAN/" +
   `?premium=${data.premium}&fast=${data.fast}&total=${total}`;
 
   window.location.href = url;
 }
+
+// LOADING HILANG
+window.onload = () => {
+  document.getElementById("loader").style.display = "none";
+}
 </script>
 
 </body>
-  </html>
+</html>
