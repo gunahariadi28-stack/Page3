@@ -12,7 +12,6 @@
   --primary:#2d4cc8;
   --bg:#f4f6fb;
   --text:#111827;
-  --muted:#6b7280;
   --white:#fff;
   --shadow:0 10px 25px rgba(0,0,0,0.08);
 }
@@ -22,116 +21,57 @@
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
-  color:var(--text);
 }
+
+/* PAGE */
+.page{display:none;}
+.page.active{display:block}
 
 /* BANNER */
-.banner{
-  width:100%;
-  max-height:280px;
-  overflow:hidden;
-}
-
 .banner img{
   width:100%;
-  height:280px;
+  height:250px;
   object-fit:cover;
-  display:block;
 }
 
-/* CONTENT */
+/* CONTAINER */
 .container{
   max-width:900px;
   margin:auto;
   padding:20px;
 }
 
-h2{
-  font-size:26px;
-  margin-bottom:20px;
-  font-weight:800;
-}
-
-.ticket{
+/* CARD */
+.card{
   background:white;
-  border-radius:18px;
-  padding:18px;
+  border-radius:15px;
+  padding:15px;
   margin-bottom:15px;
   box-shadow:var(--shadow);
-  transition:.2s;
 }
 
-.ticket:hover{
-  transform:translateY(-3px);
-}
-
-.ticket-header{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
-}
-
-.badge{
-  font-size:12px;
-  font-weight:700;
-  padding:5px 10px;
-  border-radius:999px;
-}
-
-.badge.sold{
-  background:#fee2e2;
-  color:#dc2626;
-}
-
-.badge.active{
-  background:#e0e7ff;
-  color:#2d4cc8;
-}
-
-.price{
-  font-size:22px;
-  font-weight:800;
-}
-
-.counter{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-top:10px;
-}
-
-.counter button{
-  width:35px;
-  height:35px;
+/* BUTTON */
+button{
+  width:100%;
+  padding:15px;
   border:none;
-  border-radius:50%;
+  border-radius:10px;
   background:var(--primary);
   color:white;
-  font-size:18px;
+  font-weight:bold;
   cursor:pointer;
 }
 
-.counter button:disabled{
-  background:#ccc;
-  cursor:not-allowed;
-}
-
-.sold-out{
-  opacity:.6;
-}
-
-.summary{
-  background:white;
-  padding:18px;
-  border-radius:18px;
-  margin-top:20px;
-  box-shadow:var(--shadow);
-}
-
-.row{
+/* COUNTER */
+.counter{
   display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
+  gap:10px;
+  align-items:center;
+}
+
+.counter button{
+  width:35px;height:35px;
+  border-radius:50%;
 }
 
 .footer{
@@ -139,184 +79,140 @@ h2{
   bottom:0;
   width:100%;
   background:white;
-  padding:15px;
-  border-top:1px solid #eee;
+  padding:10px;
 }
 
-.buy{
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:12px;
-  background:var(--primary);
-  color:white;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.buy:disabled{
-  background:#ccc;
-}
-
-/* LOADING */
-#loader{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:white;
+/* TEXT */
+h2{margin-bottom:15px}
+.row{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-  font-weight:700;
+  justify-content:space-between;
+  margin-bottom:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="loader">Loading...</div>
+<!-- ================= HALAMAN 1 ================= -->
+<div id="page1" class="page active">
 
-<!-- BANNER -->
 <div class="banner">
-  <img src="https://via.placeholder.com/1200x400?text=POLIPONI+EVENT">
+<img src="https://via.placeholder.com/1200x400?text=POLIPONI+EVENT">
 </div>
 
 <div class="container">
-
 <h2>🎟️ Pilih Tiket</h2>
 
-<!-- SOLD OUT -->
-<div class="ticket sold-out">
-  <div class="ticket-header">
-    <div>Reguler Festival</div>
-    <div class="badge sold">SOLD OUT</div>
-  </div>
-  <div class="price">Sold Out</div>
+<div class="card">
+<b>Reguler Premium</b>
+<div>Rp450.000</div>
+<div class="counter">
+<button onclick="dec('premium')">-</button>
+<span id="premium">0</span>
+<button onclick="inc('premium')">+</button>
+</div>
 </div>
 
-<!-- PREMIUM -->
-<div class="ticket">
-  <div class="ticket-header">
-    <div>Reguler Premium</div>
-    <div class="badge active">ON SALE</div>
-  </div>
-  <div class="price">Rp450.000</div>
-
-  <div class="counter">
-    <button onclick="dec('premium')" id="decPremium">-</button>
-    <span id="premium">0</span>
-    <button onclick="inc('premium')">+</button>
-  </div>
+<div class="card">
+<b>Fast Track</b>
+<div>Rp625.000</div>
+<div class="counter">
+<button onclick="dec('fast')">-</button>
+<span id="fast">0</span>
+<button onclick="inc('fast')">+</button>
+</div>
 </div>
 
-<!-- FAST TRACK -->
-<div class="ticket">
-  <div class="ticket-header">
-    <div>Reguler Fast Track</div>
-    <div class="badge active">ON SALE</div>
-  </div>
-  <div class="price">Rp625.000</div>
-
-  <div class="counter">
-    <button onclick="dec('fast')" id="decFast">-</button>
-    <span id="fast">0</span>
-    <button onclick="inc('fast')">+</button>
-  </div>
-</div>
-
-<!-- SUMMARY -->
-<div class="summary">
-  <div class="row">
-    <span>Premium</span>
-    <span id="pTotal">Rp0</span>
-  </div>
-  <div class="row">
-    <span>Fast Track</span>
-    <span id="fTotal">Rp0</span>
-  </div>
-  <hr>
-  <div class="row">
-    <strong>Total</strong>
-    <strong id="grand">Rp0</strong>
-  </div>
+<div class="card">
+<div class="row"><span>Total</span><b id="total">Rp0</b></div>
 </div>
 
 </div>
 
 <div class="footer">
-  <button class="buy" id="buy" disabled onclick="beli()">Selanjutnya</button>
+<button onclick="lanjut()">Selanjutnya</button>
+</div>
+
+</div>
+
+<!-- ================= HALAMAN 2 ================= -->
+<div id="page2" class="page">
+
+<div class="container">
+<h2>🧾 Checkout</h2>
+
+<div class="card">
+<div class="row"><span>Premium</span><span id="cPremium"></span></div>
+<div class="row"><span>Fast Track</span><span id="cFast"></span></div>
+<hr>
+<div class="row"><b>Total</b><b id="cTotal"></b></div>
+</div>
+
+<button onclick="bayar()">Bayar Sekarang</button>
+<button onclick="kembali()" style="margin-top:10px;background:#ccc;color:#000">
+Kembali
+</button>
+
+</div>
+
 </div>
 
 <script>
-let data = { premium:0, fast:0 };
+let data = {premium:0, fast:0};
 
 const price = {
   premium:450000,
   fast:625000
 };
 
-const MAX = 10;
-
-function totalQty(){
-  return data.premium + data.fast;
+function rupiah(n){
+  return "Rp" + n.toLocaleString("id-ID");
 }
 
 function inc(type){
-  if(totalQty() >= MAX){
-    alert("Maksimal tiket 10");
-    return;
-  }
   data[type]++;
   update();
 }
 
 function dec(type){
-  if(data[type] > 0){
+  if(data[type]>0){
     data[type]--;
     update();
   }
 }
 
-function rupiah(n){
-  return "Rp" + n.toLocaleString("id-ID");
-}
-
 function update(){
-  let p = data.premium * price.premium;
-  let f = data.fast * price.fast;
-  let total = p + f;
-
   document.getElementById("premium").innerText = data.premium;
   document.getElementById("fast").innerText = data.fast;
 
-  document.getElementById("pTotal").innerText = rupiah(p);
-  document.getElementById("fTotal").innerText = rupiah(f);
-  document.getElementById("grand").innerText = rupiah(total);
-
-  document.getElementById("buy").disabled = total === 0;
-
-  document.getElementById("decPremium").disabled = data.premium === 0;
-  document.getElementById("decFast").disabled = data.fast === 0;
+  let total = (data.premium*price.premium)+(data.fast*price.fast);
+  document.getElementById("total").innerText = rupiah(total);
 }
 
-function beli(){
-  let total = (data.premium * price.premium) + (data.fast * price.fast);
+function lanjut(){
+  let total = (data.premium*price.premium)+(data.fast*price.fast);
 
   if(total === 0){
-    alert("Pilih tiket dulu ya");
+    alert("Pilih tiket dulu");
     return;
   }
 
-  let url = "https://hariadig68-wq.github.io/Festival/PEMBELIAN/" +
-  `?premium=${data.premium}&fast=${data.fast}&total=${total}`;
+  document.getElementById("page1").classList.remove("active");
+  document.getElementById("page2").classList.add("active");
 
-  window.location.href = url;
+  document.getElementById("cPremium").innerText = data.premium;
+  document.getElementById("cFast").innerText = data.fast;
+  document.getElementById("cTotal").innerText = rupiah(total);
 }
 
-// LOADING HILANG
-window.onload = () => {
-  document.getElementById("loader").style.display = "none";
+function kembali(){
+  document.getElementById("page2").classList.remove("active");
+  document.getElementById("page1").classList.add("active");
+}
+
+function bayar(){
+  alert("Pembayaran berhasil (demo)");
 }
 </script>
 
