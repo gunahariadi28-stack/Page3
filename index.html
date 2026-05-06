@@ -5,112 +5,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>POLIPONI Ticketing</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --primary:#2d4cc8;
-  --bg:#f4f6fb;
-  --text:#111827;
-  --white:#fff;
-  --shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-*{margin:0;padding:0;box-sizing:border-box}
-
 body{
+  margin:0;
   font-family:'Poppins',sans-serif;
-  background:var(--bg);
+  background:#f4f6fb;
 }
 
-/* PAGE */
-.page{display:none;}
-.page.active{display:block}
-
-/* BANNER */
 .banner img{
   width:100%;
-  height:250px;
+  height:240px;
   object-fit:cover;
 }
 
-/* CONTAINER */
 .container{
-  max-width:900px;
+  max-width:800px;
   margin:auto;
   padding:20px;
 }
 
-/* CARD */
 .card{
-  background:white;
-  border-radius:15px;
+  background:#fff;
   padding:15px;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
   margin-bottom:15px;
-  box-shadow:var(--shadow);
 }
 
-/* BUTTON */
-button{
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:10px;
-  background:var(--primary);
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
+h2{margin-bottom:15px}
 
-/* COUNTER */
 .counter{
   display:flex;
-  gap:10px;
   align-items:center;
+  gap:10px;
 }
 
 .counter button{
-  width:35px;height:35px;
+  width:34px;
+  height:34px;
+  border:none;
   border-radius:50%;
+  background:#2d4cc8;
+  color:white;
+  cursor:pointer;
 }
 
 .footer{
   position:fixed;
   bottom:0;
   width:100%;
-  background:white;
-  padding:10px;
+  background:#fff;
+  padding:12px;
+  display:flex;
+  gap:10px;
+  box-shadow:0 -5px 15px rgba(0,0,0,0.05);
 }
 
-/* TEXT */
-h2{margin-bottom:15px}
-.row{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
+button.main{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#2d4cc8;
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+button.secondary{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#e5e7eb;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= HALAMAN 1 ================= -->
-<div id="page1" class="page active">
-
 <div class="banner">
 <img src="https://via.placeholder.com/1200x400?text=POLIPONI+EVENT">
 </div>
 
 <div class="container">
+
 <h2>🎟️ Pilih Tiket</h2>
 
 <div class="card">
-<b>Reguler Premium</b>
+<b>Premium</b>
 <div>Rp450.000</div>
 <div class="counter">
-<button onclick="dec('premium')">-</button>
-<span id="premium">0</span>
-<button onclick="inc('premium')">+</button>
+<button onclick="minus('p')">-</button>
+<span id="p">0</span>
+<button onclick="plus('p')">+</button>
 </div>
 </div>
 
@@ -118,101 +109,60 @@ h2{margin-bottom:15px}
 <b>Fast Track</b>
 <div>Rp625.000</div>
 <div class="counter">
-<button onclick="dec('fast')">-</button>
-<span id="fast">0</span>
-<button onclick="inc('fast')">+</button>
+<button onclick="minus('f')">-</button>
+<span id="f">0</span>
+<button onclick="plus('f')">+</button>
 </div>
 </div>
 
 <div class="card">
-<div class="row"><span>Total</span><b id="total">Rp0</b></div>
+<b>Total:</b> <span id="total">Rp0</span>
 </div>
 
 </div>
 
 <div class="footer">
-<button onclick="lanjut()">Selanjutnya</button>
-</div>
-
-</div>
-
-<!-- ================= HALAMAN 2 ================= -->
-<div id="page2" class="page">
-
-<div class="container">
-<h2>🧾 Checkout</h2>
-
-<div class="card">
-<div class="row"><span>Premium</span><span id="cPremium"></span></div>
-<div class="row"><span>Fast Track</span><span id="cFast"></span></div>
-<hr>
-<div class="row"><b>Total</b><b id="cTotal"></b></div>
-</div>
-
-<button onclick="bayar()">Bayar Sekarang</button>
-<button onclick="kembali()" style="margin-top:10px;background:#ccc;color:#000">
-Kembali
-</button>
-
-</div>
-
+<button class="main" onclick="checkout()">Checkout</button>
+<button class="secondary" onclick="go()">Festival</button>
 </div>
 
 <script>
-let data = {premium:0, fast:0};
-
-const price = {
-  premium:450000,
-  fast:625000
-};
+let p=0,f=0;
 
 function rupiah(n){
-  return "Rp" + n.toLocaleString("id-ID");
+  return "Rp"+n.toLocaleString("id-ID");
 }
 
-function inc(type){
-  data[type]++;
+function plus(t){
+  if(t==='p') p++;
+  if(t==='f') f++;
   update();
 }
 
-function dec(type){
-  if(data[type]>0){
-    data[type]--;
-    update();
-  }
+function minus(t){
+  if(t==='p'&&p>0)p--;
+  if(t==='f'&&f>0)f--;
+  update();
 }
 
 function update(){
-  document.getElementById("premium").innerText = data.premium;
-  document.getElementById("fast").innerText = data.fast;
+  document.getElementById("p").innerText=p;
+  document.getElementById("f").innerText=f;
 
-  let total = (data.premium*price.premium)+(data.fast*price.fast);
-  document.getElementById("total").innerText = rupiah(total);
+  let total=(p*450000)+(f*625000);
+  document.getElementById("total").innerText=rupiah(total);
 }
 
-function lanjut(){
-  let total = (data.premium*price.premium)+(data.fast*price.fast);
-
-  if(total === 0){
+function checkout(){
+  if(p+f===0){
     alert("Pilih tiket dulu");
     return;
   }
-
-  document.getElementById("page1").classList.remove("active");
-  document.getElementById("page2").classList.add("active");
-
-  document.getElementById("cPremium").innerText = data.premium;
-  document.getElementById("cFast").innerText = data.fast;
-  document.getElementById("cTotal").innerText = rupiah(total);
+  alert("Masuk ke checkout (bisa kamu upgrade nanti)");
 }
 
-function kembali(){
-  document.getElementById("page2").classList.remove("active");
-  document.getElementById("page1").classList.add("active");
-}
-
-function bayar(){
-  alert("Pembayaran berhasil (demo)");
+function go(){
+  window.location.href="https://hariadig68-wq.github.io/Festival/";
 }
 </script>
 
